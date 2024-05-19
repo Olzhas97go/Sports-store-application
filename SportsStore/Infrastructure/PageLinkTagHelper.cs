@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using SportsStore.Models.ViewModels;
+using Newtonsoft.Json;
 
 namespace SportsStore.Infrastructure
 {
@@ -25,13 +26,13 @@ namespace SportsStore.Infrastructure
         
         public string? PageAction { get; set; }
 
-        public bool PageClassesEnabled { get; set; } = false;
+        public bool PageClassesEnabled { get; set; }
+
+        public string PageClass { get; set; } = string.Empty;
         
-        public string PageClass { get; set; } = String.Empty;
+        public string PageClassNormal { get; set; } = string.Empty;
         
-        public string PageClassNormal { get; set; } = String.Empty;
-        
-        public string PageClassSelected { get; set; } = String.Empty;
+        public string PageClassSelected { get; set; } = string.Empty;
 
         public string? PageRoute { get; set; }
         
@@ -47,15 +48,17 @@ namespace SportsStore.Infrastructure
                 for (int i = 1; i <= this.PageModel.TotalPages; i++)
                 {
                     TagBuilder tag = new TagBuilder("a");
-                    PageUrlValues["productPage"] = i;
-                    tag.Attributes["href"] = urlHelper.Action(PageAction,
-                    PageUrlValues);
-                    if (PageClassesEnabled)
+                    this.PageUrlValues["productPage"] = i;
+                    tag.Attributes["href"] = urlHelper.Action(
+                        this.PageAction,
+                        this.PageUrlValues);
+                    if (this.PageClassesEnabled)
                     {
-                        tag.AddCssClass(PageClass);
-                        tag.AddCssClass(i == PageModel.CurrentPage
-                         ? PageClassSelected : PageClassNormal);
+                        tag.AddCssClass(this.PageClass);
+                        tag.AddCssClass(i == this.PageModel.CurrentPage
+                         ? this.PageClassSelected : this.PageClassNormal);
                     }
+
                     _ = tag.InnerHtml.Append(i.ToString());
                     result.InnerHtml.AppendHtml(tag);
                 }
