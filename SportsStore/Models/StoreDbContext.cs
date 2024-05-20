@@ -9,6 +9,8 @@ namespace SportsStore.Models
         {
         }
 
-        public DbSet<Product> Products { get; set; }
+        public DbSet<Product> Products => this.Set<Product>();
+
+        public DbSet<Order> Orders => this.Set<Order>();
     }
 }
