@@ -4,12 +4,15 @@
     {
         private List<CartLine> lines = new List<CartLine>();
 
-        public IReadOnlyList<CartLine> Lines { get { return this.lines; } }
+        public IReadOnlyList<CartLine> Lines
+        {
+            get { return this.lines; }
+        }
 
         public virtual void AddItem(Product product, int quantity)
         {
-            CartLine? line = this.lines.
-                Where(p => p.Product.ProductId == product.ProductId)
+            CartLine? line = this.lines
+                .Where(p => p.Product.ProductId == product.ProductId)
                 .FirstOrDefault();
 
             if(line is null)

@@ -14,38 +14,50 @@ namespace SportsStore.Controllers
         public CartController(IStoreRepository repository, Cart cart)
         {
             this.repository = repository;
-            this.cart = cart;
+            this.Cart = cart;
         }
 
-        public Cart cart { get; set; }
+        public Cart Cart { get; set; }
 
         [HttpGet]
         public IActionResult Index(string returnUrl)
         {
-            return View(new CartViewModel
+            return this.View(new CartViewModel
             {
                 ReturnUrl = returnUrl ?? "/",
-                Cart = this.HttpContext.Session.GetJson<Cart>("cart") ?? new Cart(),
+                Cart = this.Cart
             });
         }
 
         [HttpPost]
         public IActionResult Index(long productId, string returnUrl)    
         {
-            Product? product = this.repository.Products.FirstOrDefault(p => p.ProductId == productId);
+            Product? product = repository.Products.FirstOrDefault(p => p.ProductId == productId);
 
-            if(product != null)
+            if (product != null)
             {
-                this.cart.AddItem(product, 1);
+                this.Cart.AddItem(product, 1);
 
                 return View(new CartViewModel
                 {
-                    Cart = this.cart,
-                    ReturnUrl = returnUrl,
+                    Cart = this.Cart,
+                    ReturnUrl = returnUrl
                 });
             }
 
-            return this.RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        [Route("Cart/Remove")]
+        public IActionResult Remove(long productId, string returnUrl)
+        {
+            this.Cart.RemoveLine(this.Cart.Lines.First(cl => cl.Product.ProductId == productId).Product);
+            return this.View("Index", new CartViewModel
+            {
+                Cart = this.Cart,
+                ReturnUrl = returnUrl ?? "/",
+            });
         }
     }
 }
