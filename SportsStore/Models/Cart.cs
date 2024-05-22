@@ -2,7 +2,7 @@
 {
     public class Cart
     {
-        private List<CartLine> lines = new List<CartLine>();
+        private readonly List<CartLine> lines = new List<CartLine>();
 
         public IReadOnlyList<CartLine> Lines
         {
@@ -11,11 +11,11 @@
 
         public virtual void AddItem(Product product, int quantity)
         {
-            CartLine? line = this.lines
-                .Where(p => p.Product.ProductId == product.ProductId)
-                .FirstOrDefault();
+#pragma warning disable S6602 // "Find" method should be used instead of the "FirstOrDefault" extension
+            CartLine? line = this.lines.FirstOrDefault(p => p.Product.ProductId == product.ProductId);
+#pragma warning restore S6602 // "Find" method should be used instead of the "FirstOrDefault" extension
 
-            if(line is null)
+            if (line is null)
             {
                 this.lines.Add(new CartLine
                 {

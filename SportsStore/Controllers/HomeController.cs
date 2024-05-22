@@ -8,13 +8,12 @@ namespace SportsStore.Controllers
     public class HomeController : Controller
     {
         private readonly IStoreRepository repository;
+        private readonly int pageSize = 4;
 
         public HomeController(IStoreRepository repository)
         {
             this.repository = repository;
         }
-
-        public int PageSize = 4;
 
         public ViewResult Index(string? category, int productPage = 1)
               => this.View(new ProductsListViewModel
@@ -22,12 +21,12 @@ namespace SportsStore.Controllers
                   Products = this.repository.Products
                   .Where(p => category == null || p.Category == category)
                   .OrderBy(p => p.ProductId)
-                  .Skip((productPage - 1) * this.PageSize)
-                  .Take(this.PageSize),
+                  .Skip((productPage - 1) * this.pageSize)
+                  .Take(this.pageSize),
                   PagingInfo = new PagingInfo
                   {
                       CurrentPage = productPage,
-                      ItemsPerPage = this.PageSize,
+                      ItemsPerPage = this.pageSize,
                       TotalItems = category == null ? this.repository.Products.Count() : this.repository.Products.Where(e => e.Category == category).Count(),
                   },
 

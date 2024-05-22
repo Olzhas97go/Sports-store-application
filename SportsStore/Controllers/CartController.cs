@@ -1,15 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using SportsStore.Infrastructure;
 using SportsStore.Models;
 using SportsStore.Models.Repository;
 using SportsStore.Models.ViewModels;
 
 namespace SportsStore.Controllers
 {
+#pragma warning disable S6934 // A Route attribute should be added to the controller when a route template is specified at the action level
     public class CartController : Controller
+#pragma warning restore S6934 // A Route attribute should be added to the controller when a route template is specified at the action level
     {
-        private IStoreRepository repository;
+        private readonly IStoreRepository repository;
 
         public CartController(IStoreRepository repository, Cart cart)
         {
@@ -20,6 +20,7 @@ namespace SportsStore.Controllers
         public Cart Cart { get; set; }
 
         [HttpGet]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1054", Justification = "//")]
         public IActionResult Index(string returnUrl)
         {
             return this.View(new CartViewModel
@@ -30,26 +31,28 @@ namespace SportsStore.Controllers
         }
 
         [HttpPost]
-        public IActionResult Index(long productId, string returnUrl)    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1054", Justification = "//")]
+        public IActionResult Index(long productId, string returnUrl)
         {
-            Product? product = repository.Products.FirstOrDefault(p => p.ProductId == productId);
+            Product? product = this.repository.Products.FirstOrDefault(p => p.ProductId == productId);
 
             if (product != null)
             {
                 this.Cart.AddItem(product, 1);
 
-                return View(new CartViewModel
+                return this.View(new CartViewModel
                 {
                     Cart = this.Cart,
-                    ReturnUrl = returnUrl
+                    ReturnUrl = returnUrl,
                 });
             }
 
-            return RedirectToAction("Index", "Home");
+            return this.RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
         [Route("Cart/Remove")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1054", Justification = "//")]
         public IActionResult Remove(long productId, string returnUrl)
         {
             this.Cart.RemoveLine(this.Cart.Lines.First(cl => cl.Product.ProductId == productId).Product);

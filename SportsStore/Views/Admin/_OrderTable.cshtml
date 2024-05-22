@@ -1,19 +1,20 @@
 ﻿@model (IQueryable<Order> Orders, string TableTitle, string ButtonLabel, string CallbackMethodName)
 
-	<table class="table table-sm table-striped table-bordered">
-		<thead>
-			<tr><th colspan="5" class="text-center">@Model.TableTitle</th></tr>
-		</thead>
-		<tbody>
-		@if(Model.Orders.Any())
+<table class="table table-sm table-striped table-bordered">
+	<caption>Orders</caption>
+	<thead>
+		<tr><th id="0" colspan="5" class="text-center">@Model.TableTitle</th></tr>
+	</thead>
+	<tbody>
+		@if (Model.Orders.Any())
 		{
 			@foreach (Order o in Model.Orders)
 			{
 				<tr>
 					<td>@o.Name</td>
 					<td>@o.Zip</td>
-					<th>Product</th>
-					<th>Quantity</th>
+					<th id="1">Product</th>
+					<th id="2">Quantity</th>
 					<td>
 						<form asp-action=@Model.CallbackMethodName method="post">
 							<input type="hidden" name="OrderId" value="@o.OrderId" />
@@ -39,4 +40,4 @@
 			<tr><td colspan="5" class="text-center">No Orders</td></tr>
 		}
 	</tbody>
-	</table>
+</table>

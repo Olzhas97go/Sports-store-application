@@ -3,15 +3,15 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
-using SportsStore.Models.ViewModels;
 using Newtonsoft.Json;
+using SportsStore.Models.ViewModels;
 
 namespace SportsStore.Infrastructure
 {
     [HtmlTargetElement("div", Attributes = "page-model")]
     public class PageLinkTagHelper : TagHelper
     {
-        private IUrlHelperFactory urlHelperFactory;
+        private readonly IUrlHelperFactory urlHelperFactory;
 
         public PageLinkTagHelper(IUrlHelperFactory helperFactory)
         {
@@ -59,7 +59,7 @@ namespace SportsStore.Infrastructure
                          ? this.PageClassSelected : this.PageClassNormal);
                     }
 
-                    _ = tag.InnerHtml.Append(i.ToString());
+                    _ = tag.InnerHtml.Append(unencoded: i.ToString());
                     result.InnerHtml.AppendHtml(tag);
                 }
 
