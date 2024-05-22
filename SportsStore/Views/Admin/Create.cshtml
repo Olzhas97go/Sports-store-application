@@ -1,0 +1,13 @@
+﻿@model SportsStore.Models.Product
+
+@{
+	Layout = "_AdminLayout";
+}
+
+
+<partial name="_Editor" model='(@Model, "primary", "Create" , "Create")' />
+
+@section Scripts
+	{
+	<partial name="_ValidationScriptsPartial" />
+  }
