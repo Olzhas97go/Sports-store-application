@@ -33,5 +33,11 @@ namespace SportsStore.Controllers
 
                   CurrentCategory = category,
               });
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return this.View();
         }
+    }
 }

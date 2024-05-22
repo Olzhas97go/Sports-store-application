@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SportsStore.Models;
 using SportsStore.Models.Repository;
 
 namespace SportsStore.Controllers
 {
+    [Authorize]
     [Route("Admin")]
     public class AdminController : Controller
     {
