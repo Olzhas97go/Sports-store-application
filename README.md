@@ -30,5 +30,3 @@ The task consists of four steps. The description of the each step of the task ar
 | 4. | Implementation of CRUD operations that allow the administrator to create, read, update and delete products from repository and mark orders as shipped. | sports-store-application-4 |
 
 After completing all steps you will get the final version of the application in the `main` branch.
-
-_*This task was developed based on an example from the book by [Adam Freeman Pro ASP.NET Core 6: Develop Cloud-Ready Web Applications Using MVC, Blazor, and Razor Pages 9th ed. Edition](https://www.amazon.com/Pro-ASP-NET-Core-Cloud-Ready-Applications/dp/1484279565). If you are having difficulty completing the task, contact the source._
